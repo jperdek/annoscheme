@@ -1,0 +1,34 @@
+# Containerization and Orchestration  
+
+
+## DOCKER BUILD  +  RUN   
+
+
+### RUN AND TAKE IT LOCALLY - RECOMMENDED FOR DEVELOPMENT (ORCHESTRATION)  
+- do it after replacement of related applications and viewing generated diagrams (volumes are attached to container but not shared from local drive)    
+  ```docker compose up```  
+
+
+### RUN AND TAKE IT FROM CONTAINER:  
+build:  
+ ```docker build -t codetoactivity:latest .```  
+
+run (volumes are attached to container but not shared from local drive):  
+ ```docker run -it --entrypoint "/bin/bash" -v ./application:/app/application -v ./img:/app/img codetoactivity:latest```  
+
+build + run (volumes are attached to container but not shared from local drive):  
+```docker build -t codetoactivity:latest . & docker run -it --entrypoint "/bin/bash" -v ./application:/app/application -v ./img:/app/img codetoactivity:latest```   
+
+
+
+
+## RECREATION OF ACTIVITY DIAGRAM (bash inside container)    
+FOR RECREATION OF ACTIVITY DIAGRAM IS NECESSARY TO CALL  
+```mvn clean && mvn install```    
+
+
+
+
+NOT CURRENTLY WORKING   
+docker run -it --entrypoint "/bin/bash" --mount type=bind,src=E://newEclipse/annoscheme.zip_expanded/annoscheme-master/application,dst=/app/application --mount type=bind,src=E://newEclipse/annoscheme.zip_expanded/annoscheme-master/img,dst=/app/img codetoactivity:latest
+docker run -it --entrypoint "/bin/bash" --mount type=bind,src=%cd%/application,dst=/app/application --mount type=bind,src=%cd%/img,dst=/app/img codetoactivity:latest

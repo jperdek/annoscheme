@@ -1,0 +1,25 @@
+services:
+    annotationScheme:
+        build: 
+            context: .
+        image: jperdek/annotationscheme
+        container_name: annotationScheme
+        volumes:
+            - application-volume:/app/application
+            - img-volume:/app/img
+        env_file: .env
+        stdin_open: true # docker run -i
+        tty: true
+    volumeCopyInit:
+        build:
+            dockerfile: ./localCopy/Dockerfile
+        command: cp -R /localFiles/application /app && rm -r /app/img && rm -r /app/application && cp -R /localFiles/application /app && cp -R /localFiles/img /app
+        env_file: .env
+        image: jperdek/volume-copy
+        volumes:
+            - application-volume:/app/application
+            - img-volume:/app/img
+        restart: on-failure
+volumes:
+    application-volume:
+    img-volume:

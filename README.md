@@ -11,14 +11,10 @@ more [here](https://www.eclipse.org/aspectj/)).
 * Spring integration example application - `spring-integration`
 * Java integration template - `plain-java-template`
 
-## Requirements
-* Java 8 ([JDK 1.8.0-2**](https://www.oracle.com/java/technologies/downloads/)) or higher
-* [Maven 3.6.0](https://maven.apache.org/download.cgi) or higher
-* Any shell (```zsh```, ```bash```...)
-* IDE of your choice (prefferably IntelliJ IDEA)
-* Target application with Maven-defined POM for linking to this solution
 
-## Installation
+## Running and Testing
+
+### Installation Steps (even for dockerized version)
 * Clone this repository 
 * Insert your source files of the designated applications into the `application` module
 * Fill in the missing POM properties within *application* and *main* modules
@@ -28,6 +24,59 @@ more [here](https://www.eclipse.org/aspectj/)).
 
 After these steps, the build setup should be ready and the whole project can be built from the root folder using ```clean install``` maven goals. 
 The generated diagram images are created using PlantUml text-to-diagram  library and are stored in `/img/` folder.  
+
+### Local Run - Requirements
+* Java 8 ([JDK 1.8.0-2**](https://www.oracle.com/java/technologies/downloads/)) or higher
+* [Maven 3.6.0](https://maven.apache.org/download.cgi) or higher
+* Any shell (```zsh```, ```bash```...)
+* IDE of your choice (preferably IntelliJ IDEA)
+* Target application with Maven-defined POM for linking to this solution
+
+
+### Containerization and Orchestration  
+
+### DOCKER BUILD  +  RUN   
+
+
+#### RUN AND TAKE IT LOCALLY - RECOMMENDED FOR DEVELOPMENT (ORCHESTRATION)  
+- do it after replacement of related applications and viewing generated diagrams (volumes are attached to container but not shared from local drive)    
+  ```docker compose up --rebuild```  
+
+
+#### RUN AND TAKE IT FROM CONTAINER:  
+build:  
+ ```docker build -t codetoactivity:latest .```  
+
+run (volumes are attached to container but not shared from local drive):  
+ ```docker run -it --entrypoint "/bin/bash" -v ./application:/app/application -v ./img:/app/img codetoactivity:latest```  
+
+build + run (volumes are attached to container but not shared from local drive):  
+```docker build -t codetoactivity:latest . & docker run -it --entrypoint "/bin/bash" -v ./application:/app/application -v ./img:/app/img codetoactivity:latest```   
+
+
+
+### RECREATION OF ACTIVITY DIAGRAM (bash inside container)    
+FOR RECREATION OF ACTIVITY DIAGRAM IS NECESSARY TO CALL  
+```mvn clean && mvn install```    
+
+
+
+### Observing Results Using Docker Desktop
+
+Opening Docker Desktop
+![Opening Docker Desktop](https://github.com/jperdek/automatedSPLEvolutionFramework/blob/master/documentation/example-images/docker1.png) 
+
+Selecting Running Service
+![Selecting Running Service](https://github.com/jperdek/automatedSPLEvolutionFramework/blob/master/documentation/example-images/docker2.png) 
+
+Navigating to Service Files
+![Navigating to Service Files](https://github.com/jperdek/automatedSPLEvolutionFramework/blob/master/documentation/example-images/docker3.png) 
+
+Downloading Generated Activity Diagrams
+![Downloading Generated Activity Diagrams](https://github.com/jperdek/automatedSPLEvolutionFramework/blob/master/documentation/example-images/docker4.png) 
+
+
+
 
 ## Using annotations
 Every annotation serves as a placeholder for a real element within UML Activity diagram (UML AD). Individual element types are defined using `ActionType` parameter of each annotation, however an activity within the diagram doesn't need to be specified (`ActionType.ACTION`) as it is a default value for the action type of each [@Action annotation](#annotation-types).
