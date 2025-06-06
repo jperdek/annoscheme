@@ -64,16 +64,16 @@ FOR RECREATION OF ACTIVITY DIAGRAM IS NECESSARY TO CALL
 ### Observing Results Using Docker Desktop
 
 Opening Docker Desktop
-![Opening Docker Desktop](https://github.com/jperdek/automatedSPLEvolutionFramework/blob/master/documentation/example-images/docker1.png) 
+![Opening Docker Desktop](https://github.com/jperdek/annoscheme/tree/master/example-images/docker1.png) 
 
 Selecting Running Service
-![Selecting Running Service](https://github.com/jperdek/automatedSPLEvolutionFramework/blob/master/documentation/example-images/docker2.png) 
+![Selecting Running Service](https://github.com/jperdek/annoscheme/tree/master/example-images/docker2.png) 
 
 Navigating to Service Files
-![Navigating to Service Files](https://github.com/jperdek/automatedSPLEvolutionFramework/blob/master/documentation/example-images/docker3.png) 
+![Navigating to Service Files](https://github.com/jperdek/annoscheme/tree/master/example-images/docker3.png) 
 
 Downloading Generated Activity Diagrams
-![Downloading Generated Activity Diagrams](https://github.com/jperdek/automatedSPLEvolutionFramework/blob/master/documentation/example-images/docker4.png) 
+![Downloading Generated Activity Diagrams](https://github.com/jperdek/annoscheme/tree/master/example-images/docker4.png) 
 
 
 
