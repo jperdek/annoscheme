@@ -1,0 +1,14 @@
+
+*/target/
+/aspects/target/
+/application/target/
+/common/target/
+
+/img/
+
+/diagram-cache.json
+/output-storage
+/.idea/*.xml
+/.idea
+
+*.iml
