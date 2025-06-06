@@ -1,6 +1,5 @@
 package org.annoscheme.common.model;
 
-import net.sourceforge.plantuml.StringUtils;
 import org.annoscheme.common.annotation.ActionType;
 import org.annoscheme.common.model.element.ActivityDiagramElement;
 import org.annoscheme.common.model.element.ConditionalActivityDiagramElement;
@@ -109,7 +108,6 @@ public class ActivityDiagramModel implements PlantUmlIntegrable {
 			} else {
 				throw new IllegalArgumentException("Diagram already contains start node");
 			}
-			
 		}
 
 		ConditionalActivityDiagramElement conditionalElement;

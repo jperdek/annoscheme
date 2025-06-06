@@ -22,6 +22,7 @@
 		<java.source-target.version>18</java.source-target.version>
 		<aspectj.version>1.9.24</aspectj.version>
 		<maven.compiler.version>3.8.1</maven.compiler.version>
+
 	</properties>
 
 	<build>
@@ -125,9 +126,10 @@
 			</dependency>
 			<dependency>
 			    <groupId>net.sourceforge.plantuml</groupId>
-    <artifactId>plantuml</artifactId>
-    <version>1.2025.3</version>
+			    <artifactId>plantuml</artifactId>
+			    <version>1.2025.3</version>
 			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 

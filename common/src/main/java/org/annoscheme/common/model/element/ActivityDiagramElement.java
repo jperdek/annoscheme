@@ -1,6 +1,5 @@
 package org.annoscheme.common.model.element;
 
-import net.sourceforge.plantuml.StringUtils;
 import org.annoscheme.common.annotation.ActionType;
 
 import java.util.Arrays;
