@@ -35,7 +35,7 @@ public class ActivityDiagramElement extends DiagramElement {
 	@JsonIgnore
 	public String getPlantUmlElementMessage() {
 		StringBuilder plantUmlMessage = new StringBuilder("");
-		if (message != null && !"".equals(message)) {
+		if (message != null && "".equals(message)) {
 			return plantUmlMessage.toString();
 		}
 		plantUmlMessage.append(":").append(trimAndReplaceQuotes(message));
@@ -44,6 +44,7 @@ public class ActivityDiagramElement extends DiagramElement {
 	}
 
 	public String getMessage() {
+		if (message == null) { message = "Undefined. Probably caused by no value for message of certain action in annotationvalue.properties file!"; }
 		return message;
 	}
 
