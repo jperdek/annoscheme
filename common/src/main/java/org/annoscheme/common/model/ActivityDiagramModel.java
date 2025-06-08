@@ -76,7 +76,7 @@ public class ActivityDiagramModel implements PlantUmlIntegrable {
 					plantUmlStringBuilder.append("if (")
 										 .append(currentConditional.getCondition())
 										 .append(") ")
-										 .append("then ").append("([true]) \n");
+										 .append("then ").append("([" + currentConditional.getTrueClause() + "]) \n");
 					//get main branch
 					ActivityDiagramElement mainFlowDirect = currentConditional.getMainFlowDirectChild();
 					if (mainFlowDirect == null) { 
@@ -84,7 +84,7 @@ public class ActivityDiagramModel implements PlantUmlIntegrable {
 								activityNameToProcess + "< with type: >" + actionType.toString() + "<..."); 
 					}
 					plantUmlStringBuilder.append(this.getPlantUmlConditionalBranch(mainFlowDirect));
-					plantUmlStringBuilder.append("else (").append("[false]").append(") \n");
+					plantUmlStringBuilder.append("else ([").append(currentConditional.getFalseClause()).append("]) \n");
 					//get alternative branch
 					plantUmlStringBuilder.append(this.getPlantUmlConditionalBranch(currentConditional.getAlternateFlowDirectChild()));
 				} else {

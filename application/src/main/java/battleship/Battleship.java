@@ -2,7 +2,8 @@ package battleship;
 
 import java.util.Scanner;
 import configurationManagement.ConfigurationLoader;
-
+import org.annoscheme.common.annotation.BranchingType;
+import org.annoscheme.common.annotation.Conditional;
 import org.annoscheme.common.annotation.Action;
 import org.annoscheme.common.annotation.Joining;
 import org.annoscheme.common.annotation.ActionType;
@@ -28,7 +29,7 @@ public class Battleship {
 		reader.nextLine();
 		
 		computer = this.instantiateOpponent("PLAYER2", boardManager);
-		
+		this.instantiateOpponentJoin();
 		System.out.println("\nCOMPUTER GRID (FOR DEBUG)...");
 		computer.printShips();
 
@@ -50,7 +51,7 @@ public class Battleship {
 	}
 	
 	@Action(actionType = ActionType.ACTION,
-	     message="d1.opponentTurn", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.instantiateOpponent")
+	     message="d1.opponentTurn", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.instantiateOpponentJoin")
 	private void opponentTurn(AbstractPlayer computer, AbstractPlayer userPlayer) {
 		askForGuess(computer, userPlayer);
 	}
@@ -75,16 +76,17 @@ public class Battleship {
 		return false;
 	}
 	
-	
-	public AbstractPlayer instantiateOpponent(String opponentID, int[] playerShips, BoardManager boardManager) {
-		return new Player(opponentID, playerShips, boardManager);
-	}
-
+	@Conditional(branchingType = BranchingType.ALTERNATIVE, condition="d1.playerAsOpponentVariability", diagramIdentifiers={"d1.id"}, trueClause="{\"computerPlayer\": \"true\"}")
 	@Action(actionType = ActionType.ACTION, message = "d1.instantiateOpponent", 
-			diagramIdentifiers = {"d1.id"}, parentMessage = "d1.instantiatePlayer")
+	diagramIdentifiers = {"d1.id"}, parentMessage = "d1.instantiatePlayer")	
 	public AbstractPlayer instantiateOpponent(String opponentID, BoardManager boardManager) {
 		return new Player(opponentID, boardManager);
 	}
+
+	@Joining(condition = "d1.playerAsOpponentVariability", diagramIdentifiers = {"d1.id"})
+	@Action(actionType = ActionType.ACTION, message = "d1.instantiateOpponentJoin", 
+			diagramIdentifiers = {"d1.id"}, parentMessage = "d1.instantiateOpponent")
+	public void instantiateOpponentJoin() {}
 	
 	public AbstractPlayer instantiatePlayer(String playerID, int[] playerShips, BoardManager boardManager) {
 		return new Player(playerID, playerShips, boardManager);

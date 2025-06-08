@@ -16,4 +16,8 @@ public @interface Conditional {
 	String[] diagramIdentifiers() default {};
 
 	String parentMessage() default "";
+	
+	String trueClause() default "true";
+	
+	String falseClause() default "false";
 }

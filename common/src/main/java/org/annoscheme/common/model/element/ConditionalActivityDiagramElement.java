@@ -13,10 +13,33 @@ public class ConditionalActivityDiagramElement extends ActivityDiagramElement {
 
 	private ActivityDiagramElement alternateFlowDirectChild;
 	
+	private String trueClause = "true";
+	
+	private String falseClause = "false";
+	
+	
 	public ActionType getActionType() {
 		return ActionType.CONDITIONAL;
 	}
 
+	public void setTrueClause(String trueClause) {
+		if (trueClause == null) { trueClause = "true"; }
+		this.trueClause = trueClause;
+	}
+	
+	public void setFalseClause(String falseClause) {
+		if (falseClause == null) { falseClause = "false"; }
+		this.falseClause = falseClause;
+	}
+	
+	public String getTrueClause() {
+		return this.trueClause;
+	}
+	
+	public String getFalseClause() {
+		return this.falseClause;
+	}
+	
 	public ActivityDiagramElement getMainFlowDirectChild() {
 		return mainFlowDirectChild;
 	}

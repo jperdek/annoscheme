@@ -226,6 +226,12 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 				case "diagramIdentifiers":
 					element.setDiagramIdentifiers(parseDiagramIdentifiers(value));
 					break;
+				case "trueClause":
+					element.setTrueClause(String.valueOf(value.getValue()));
+					break;
+				case "falseClause":
+					element.setFalseClause(String.valueOf(value.getValue()));
+					break;
 				default:
 					throw new IllegalStateException("Unknown parameter for conditional activity annotation (See defined in Conditional class): " + key);
 			}

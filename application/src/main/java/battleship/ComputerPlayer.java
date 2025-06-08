@@ -1,4 +1,9 @@
 package battleship;
+import org.annoscheme.common.annotation.Action;
+import org.annoscheme.common.annotation.ActionType;
+import org.annoscheme.common.annotation.BranchingType;
+import org.annoscheme.common.annotation.Conditional;
+import org.annoscheme.common.annotation.Joining;
 
 //@{"computerOpponent": "true"}
 public class ComputerPlayer extends AbstractPlayer{
@@ -7,6 +12,8 @@ public class ComputerPlayer extends AbstractPlayer{
 		super(id, Player.SHIP_DEFAULT_LENGTH, boardManager);
 	}
 	
+	@Conditional(branchingType = BranchingType.MAIN, condition="d1.playerAsOpponentVariability", diagramIdentifiers={"d1.id"}, trueClause="{\"computerPlayer\": \"true\"}")
+	@Action(message = "d1.computerOpponentInstantiation", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.instantiatePlayer")
 	public ComputerPlayer(String id, int[] ship_lengths, BoardManager boardManager) {
 		super(id, ship_lengths, boardManager);	
 		this.setupComputer();
