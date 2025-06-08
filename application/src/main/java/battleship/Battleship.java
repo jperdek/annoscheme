@@ -49,24 +49,21 @@ public class Battleship {
 		}
 	}
 	
-	@Conditional(branchingType = BranchingType.MAIN,
-		      condition="d1.isFinalState", diagramIdentifiers={"d1.id"})
-	@Joining(condition = "d1.askPlayerHit", diagramIdentifiers = {"d1.id"})
 	@Action(actionType = ActionType.ACTION,
-	     message="d1.opponentTurn", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.checkFinalState")
+	     message="d1.opponentTurn", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.instantiateOpponent")
 	private void opponentTurn(AbstractPlayer computer, AbstractPlayer userPlayer) {
 		askForGuess(computer, userPlayer);
 	}
 	
 	@Joining(condition = "d1.askOpponentHit", diagramIdentifiers = {"d1.id"})
 	@Action(actionType = ActionType.ACTION,
-		     message="d1.playerTurn", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.askOpponentHit")
+		     message="d1.playerTurn", diagramIdentifiers = {"d1.id"})
 	private void playerTurn(AbstractPlayer userPlayer, AbstractPlayer computer) {
 		askForGuess(userPlayer, computer);
 	}
 	
-	
-	@Action(actionType = ActionType.ACTION, message = "d1.checkFinalState", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.instantiateOpponent")
+	@Joining(condition = "d1.askPlayerHit", diagramIdentifiers = {"d1.id"})
+	@Action(actionType = ActionType.ACTION, message = "d1.checkFinalState", diagramIdentifiers = {"d1.id"})
 	private boolean checkFinalState(AbstractPlayer userPlayer, AbstractPlayer computer) {
 		if (userPlayer.hasLost()) {
 			System.out.println("OPPONENT HIT!...USER LOSES");
@@ -187,10 +184,8 @@ public class Battleship {
 		}
 	}
 	
-	@Conditional(branchingType = BranchingType.ALTERNATIVE,
-		      condition="d1.isFinalState", diagramIdentifiers={"d1.id"}, parentMessage = "d1.checkFinalState")
 	@Action(actionType = ActionType.START, message = "d1.startBattleship", diagramIdentifiers = {"d1.id"})
-	@Action(actionType = ActionType.END, message = "d1.endBattleship", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.isFinalState")
+	@Action(actionType = ActionType.END, message = "d1.endBattleship", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.checkFinalState")
 	public static void main(String[] args) {
 		ConfigurationLoader configurationLoader = new ConfigurationLoader("resources/battleshipConfig.json");
 		Battleship battleshipGame = new Battleship();
