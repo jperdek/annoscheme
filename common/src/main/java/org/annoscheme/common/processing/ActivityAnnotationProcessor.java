@@ -142,10 +142,8 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 					System.out.println(elementToAdd.getMessage());
 					System.out.println(conditionalElementToAdd.getBranchingType());
 					if (BranchingType.MAIN.equals(conditionalElementToAdd.getBranchingType())) {
-						System.out.println("AA CONNN");
 						conditionalElementToAdd.setMainFlowDirectChild(elementToAdd);
 					} else {
-						System.out.println("AALT CONNN");
 						conditionalElementToAdd.setAlternateFlowDirectChild(elementToAdd);
 					}
 					conditionalElementToAdd.setParentMessage(elementToAdd.getParentMessage());

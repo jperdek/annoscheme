@@ -78,27 +78,27 @@ public abstract class AbstractPlayer {
 	}
 	
 	@Conditional(branchingType = BranchingType.MAIN, condition="d1.askPlayerHit", diagramIdentifiers={"d1.id"})
-	@Action(message = "d1.markPlayerMiss", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.opponentTurn")
+	@Action(message = "d1.markPlayerMiss", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.playerTurn")
 	public void markMissPlayer(int row, int col) {
 		playerGrid.markMiss(row, col);
 	}
 	
-	//@Conditional(branchingType = BranchingType.ALTERNATIVE,
-	//	      condition="d1.askOpponentHit", diagramIdentifiers={"d1.id"})
-	//@Action(actionType = ActionType.ACTION, message = "d1.markOpponentMiss", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.opponentTurn")
+	@Conditional(branchingType = BranchingType.MAIN,
+		      condition="d1.askOpponentHit", diagramIdentifiers={"d1.id"})
+	@Action(actionType = ActionType.ACTION, message = "d1.markOpponentMiss", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.opponentTurn")
 	public void markMissOpponent(int row, int col) {
 		oppGrid.markMiss(row, col);
 	}
 
 	@Conditional(branchingType = BranchingType.ALTERNATIVE, condition="d1.askPlayerHit", diagramIdentifiers={"d1.id"})
-	@Action(message = "d1.markPlayerHit", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.opponentTurn")
+	@Action(message = "d1.markPlayerHit", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.playerTurn")
 	public void markHitPlayer(int row, int col) {
 		playerGrid.markHit(row, col);
 	}
 	
-	//@Conditional(branchingType = BranchingType.ALTERNATIVE,
-	//	      condition="d1.askOpponentHit", diagramIdentifiers={"d1.id"})
-	//@Action(actionType = ActionType.ACTION, message = "d1.markOpponentHit", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.instantiateOpponent")
+	@Conditional(branchingType = BranchingType.ALTERNATIVE,
+		      condition="d1.askOpponentHit", diagramIdentifiers={"d1.id"})
+	@Action(actionType = ActionType.ACTION, message = "d1.markOpponentHit", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.opponentTurn")
 	public void markHitOpponent(int row, int col) {
 		oppGrid.markHit(row, col);
 	}

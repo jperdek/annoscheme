@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import static org.annoscheme.common.model.constants.PlantUmlConstants.END_UML;
 import static org.annoscheme.common.model.constants.PlantUmlConstants.START_UML;
+import java.util.Iterator;
 
 public class ActivityDiagramModel implements PlantUmlIntegrable {
 
@@ -36,6 +37,11 @@ public class ActivityDiagramModel implements PlantUmlIntegrable {
 		}
 		plantUmlStringBuilder.append(START_UML);
 		plantUmlStringBuilder.append(startElement.toPlantUmlString());
+		Iterator<ActivityDiagramElement> i = this.activityDiagramElements.iterator();
+		while (i.hasNext()) {
+			ActivityDiagramElement a = i.next();
+			System.out.println(a.getActionType() + " "+ a.getParentMessage());
+		}
 		ActivityDiagramElement current = startElement;
 		boolean reachedEndState = false;
 		//TODO sentinel the processing
@@ -44,7 +50,6 @@ public class ActivityDiagramModel implements PlantUmlIntegrable {
 				ActivityDiagramElement finalCurrent = current;
 				String activityNameToProcess = current.getMessage();
 				ActionType actionType = current.getActionType();
-				System.out.println("Activity: >" + finalCurrent.getMessage() + "< with type: >" + finalCurrent.getActionType().toString() + "<...");
 				//find next element to process, assign it to 'current'
 				if (current instanceof ConditionalActivityDiagramElement) {
 					current = activityDiagramElements
@@ -53,36 +58,37 @@ public class ActivityDiagramModel implements PlantUmlIntegrable {
 										 x.getParentMessage().equals(((ConditionalActivityDiagramElement) finalCurrent).getCondition()))
 							.findFirst().orElse(null);
 					if (current == null) { 
-						throw new IllegalStateException("Error! Parent message from asociated action is wrongly specified!" + 
+						throw new IllegalStateException("Error for ConditionalActivityDiagramElement! Parent message from asociated action is wrongly specified!" + 
 								activityNameToProcess + "< with type: >" + actionType.toString() + "<..."); 
 					}
 				} else {
 					current = activityDiagramElements.stream().filter(x -> x.getParentMessage() != null && x.getParentMessage().equals(finalCurrent.getMessage()))
 													 .findFirst().orElse(null);
 					if (current == null) { 
-						throw new IllegalStateException("Error! Parent messages are not placed properly. No parent is found for >" + 
+						throw new IllegalStateException("Error for Action! Parent messages are not placed properly. No parent is found for >" + 
 								activityNameToProcess + "< with type: >" + actionType.toString() + "<..."); 
 					}
 				}
 				if (current instanceof ConditionalActivityDiagramElement) {
 					
 					ConditionalActivityDiagramElement currentConditional = (ConditionalActivityDiagramElement) current;
-					System.out.println("HEEEREE2222E;" + currentConditional.getMainFlowDirectChild().toString());
-					
-					System.out.println("Activity: >" +currentConditional.getMainFlowDirectChild().getMessage() + "< with type: >" + currentConditional.getMainFlowDirectChild().getActionType().toString() + "<...");
-					
+			
 					plantUmlStringBuilder.append("if (")
 										 .append(currentConditional.getCondition())
 										 .append(") ")
 										 .append("then ").append("([true]) \n");
 					//get main branch
-					plantUmlStringBuilder.append(this.getPlantUmlConditionalBranch(currentConditional.getMainFlowDirectChild()));
+					ActivityDiagramElement mainFlowDirect = currentConditional.getMainFlowDirectChild();
+					if (mainFlowDirect == null) { 
+						throw new IllegalStateException("Error for MainFlow Cond! Parent messages are not placed properly. No parent is found for >" + 
+								activityNameToProcess + "< with type: >" + actionType.toString() + "<..."); 
+					}
+					plantUmlStringBuilder.append(this.getPlantUmlConditionalBranch(mainFlowDirect));
 					plantUmlStringBuilder.append("else (").append("[false]").append(") \n");
 					//get alternative branch
 					plantUmlStringBuilder.append(this.getPlantUmlConditionalBranch(currentConditional.getAlternateFlowDirectChild()));
 				} else {
 					if (current != null) {
-						System.out.println("VISITED : >" + current.toPlantUmlString() + "<");
 						plantUmlStringBuilder.append(current.toPlantUmlString());
 					} else {
 						throw new IllegalStateException("Diagram element is ommited. Parent messages are not placed properly...");
@@ -150,16 +156,11 @@ public class ActivityDiagramModel implements PlantUmlIntegrable {
 					.findFirst();
 			//if existing, update it's branches
 			if (existingConditionalOptional.isPresent()) {
-				System.out.println("FOUND");
 				//there already is existing conditional with same condition -> update main/alt branch
 				ConditionalActivityDiagramElement existingConditional = (ConditionalActivityDiagramElement) existingConditionalOptional.get();
 				if (conditionalElement.getAlternateFlowDirectChild() != null && existingConditional.getAlternateFlowDirectChild() == null) {
-					System.out.println("COND ALT");
 					existingConditional.setAlternateFlowDirectChild(conditionalElement.getAlternateFlowDirectChild());
 				} else {
-					System.out.println("CONDDDDDDDDDDDDDDDDDD");
-					System.out.println(conditionalElement.getMainFlowDirectChild());
-					System.out.println(conditionalElement.getMessage());
 					existingConditional.setMainFlowDirectChild(conditionalElement.getMainFlowDirectChild());
 				}
 				return;

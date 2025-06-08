@@ -12,7 +12,7 @@ public class ConditionalActivityDiagramElement extends ActivityDiagramElement {
 	private ActivityDiagramElement mainFlowDirectChild;
 
 	private ActivityDiagramElement alternateFlowDirectChild;
-
+	
 	public ActionType getActionType() {
 		return ActionType.CONDITIONAL;
 	}

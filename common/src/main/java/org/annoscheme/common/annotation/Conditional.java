@@ -15,4 +15,5 @@ public @interface Conditional {
 
 	String[] diagramIdentifiers() default {};
 
+	String parentMessage() default "";
 }
