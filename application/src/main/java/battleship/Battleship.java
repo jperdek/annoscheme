@@ -48,6 +48,8 @@ public class Battleship {
 			
 			if (checkFinalState(userPlayer, computer)) { break; }
 		}
+		this.collectStatistics();
+		this.notCollectStatistics();
 	}
 	
 	@Action(actionType = ActionType.ACTION,
@@ -186,8 +188,28 @@ public class Battleship {
 		}
 	}
 	
+	@Conditional(branchingType = BranchingType.MAIN, condition="d1.statisticCollector", diagramIdentifiers={"d1.id"}, trueClause="{\"statistics\": \"true\"}")
+	@Action(actionType = ActionType.ACTION, message = "d1.collectStatistics", 
+	diagramIdentifiers = {"d1.id"}, parentMessage = "d1.checkFinalState")
+	private void collectStatistics() {
+	}
+	
+	@Conditional(branchingType = BranchingType.ALTERNATIVE, condition="d1.statisticCollector", diagramIdentifiers={"d1.id"}, trueClause="{\"statistics\": \"true\"}")
+	@Action(actionType = ActionType.VOID, message = "d1.void", 
+	diagramIdentifiers = {"d1.id"}, parentMessage = "d1.checkFinalState")	
+	public void notCollectStatistics() {
+		this.merge();
+	}
+	
+	@Joining(condition = "d1.statisticCollector", diagramIdentifiers = {"d1.id"})
+	@Action(actionType = ActionType.VOID,
+		     message="d1.statisticsMerge", diagramIdentifiers = {"d1.id"})
+	private void merge() {
+		
+	}
+	
 	@Action(actionType = ActionType.START, message = "d1.startBattleship", diagramIdentifiers = {"d1.id"})
-	@Action(actionType = ActionType.END, message = "d1.endBattleship", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.checkFinalState")
+	@Action(actionType = ActionType.END, message = "d1.endBattleship", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.statisticsMerge")
 	public static void main(String[] args) {
 		ConfigurationLoader configurationLoader = new ConfigurationLoader("resources/battleshipConfig.json");
 		Battleship battleshipGame = new Battleship();

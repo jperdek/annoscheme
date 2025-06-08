@@ -2,6 +2,12 @@ package battleship.statistics;
 
 import battleship.Player;
 import configurationManagement.Configuration;
+import org.annoscheme.common.annotation.Action;
+import org.annoscheme.common.annotation.ActionType;
+import org.annoscheme.common.annotation.BranchingType;
+import org.annoscheme.common.annotation.Conditional;
+import org.annoscheme.common.annotation.Joining;
+
 
 //@{"statistics": "true"}
 public aspect SuccessMetric {
@@ -15,7 +21,16 @@ public aspect SuccessMetric {
 		call(boolean battleship.Grid.hasShip(..)) && this(player) 
 		&& if(Configuration.statistics);
 	
+		
+	/*@Conditional(branchingType = BranchingType.MAIN, condition="d1.statisticCollector", diagramIdentifiers={"d1.id"}, trueClause="{\"statistics\": \"true\"}")
+	@Action(actionType = ActionType.ACTION, message = "d1.collectStatistics", 
+	diagramIdentifiers = {"d1.id"}, parentMessage = "d1.checkFinalState")
+	private void collectStatistics() {
+		
+	}*/
+	
 	boolean around(Player processedPlayer): hasShipPointcut(processedPlayer) {
+		//this.collectStatistics();
 		String playerId = processedPlayer.getId() + StatisticVariableNames.HITS;
 		boolean result = proceed(processedPlayer);
 

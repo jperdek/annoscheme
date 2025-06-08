@@ -28,6 +28,8 @@ public class ActivityDiagramElement extends DiagramElement {
 			plantUmlStringBuilder.insert(0, DIAGRAM_START);
 		} else if (ActionType.END.equals(actionType)) {
 			plantUmlStringBuilder.append(DIAGRAM_END);
+		} if (ActionType.VOID.equals(actionType)) {
+			return "";
 		}
 		return plantUmlStringBuilder.toString();
 	}
