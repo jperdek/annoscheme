@@ -10,7 +10,7 @@ public class DeviceNotFoundException extends RuntimeException {
 
 	@Action(message = "d1.logFailed", actionType = ActionType.ACTION, parentMessage = "d1.findById",
 			diagramIdentifiers = {"d1.id"})
-	@Conditional(type = BranchingType.ALTERNATIVE, condition = "d1.deviceCond", diagramIdentifiers = {"d1.id"})
+	@Conditional(branchingType = BranchingType.ALTERNATIVE, condition = "d1.deviceCond", diagramIdentifiers = {"d1.id"})
 	public DeviceNotFoundException(String message) {
 		LogManager.getLogger(DeviceNotFoundException.class).error(message);
 	}

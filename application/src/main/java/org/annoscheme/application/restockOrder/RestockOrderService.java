@@ -24,7 +24,7 @@ public class RestockOrderService {
 	}
 
 	@Action(diagramIdentifiers = {"d1.id"}, message = "d1.createResOr", parentMessage = "d1.findById")
-	@Conditional(type = BranchingType.MAIN, condition = "d1.deviceCond", diagramIdentifiers = {"d1.id"})
+	@Conditional(branchingType = BranchingType.MAIN, condition = "d1.deviceCond", diagramIdentifiers = {"d1.id"})
 	public RestockOrder createRestockOrder(RestockOrderRequestModel requestModel) {
 		try {
 			Device device = this.deviceRepository.findDeviceById(requestModel.getDeviceId());
