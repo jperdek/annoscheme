@@ -139,6 +139,8 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 					elementToAdd = actionElementsToAdd.stream()
 													  .filter(element -> Arrays.equals(element.getDiagramIdentifiers(),
 																					   conditionalElementToAdd.getDiagramIdentifiers())).findFirst().get();
+					System.out.println(elementToAdd.getMessage());
+					System.out.println(conditionalElementToAdd.getBranchingType());
 					if (BranchingType.MAIN.equals(conditionalElementToAdd.getBranchingType())) {
 						conditionalElementToAdd.setMainFlowDirectChild(elementToAdd);
 					} else {
@@ -185,6 +187,8 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 				case "actionType":
 					element.setActionType(getActionTypeForElement(String.valueOf(value.getValue())));
 					break;
+				default:
+					throw new IllegalStateException("Unknown parameter for activity annotation: " + key);
 			}
 		});
 
@@ -201,6 +205,8 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 				case "diagramIdentifiers":
 					element.setDiagramIdentifiers(parseDiagramIdentifiers(value));
 					break;
+				default:
+					throw new IllegalStateException("Unknown parameter for joining activity annotation (See defined in Joining class): " + key);
 			}
 		});
 		return element;
@@ -210,7 +216,7 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 		ConditionalActivityDiagramElement element = new ConditionalActivityDiagramElement();
 		mirror.getElementValues().forEach((key, value) -> {
 			switch (key.getSimpleName().toString()) {
-				case "type":
+				case "branchingType":
 					element.setBranchingType(BranchingType.valueOfString(String.valueOf(value.getValue())));
 					break;
 				case "condition":
@@ -220,6 +226,14 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 				case "diagramIdentifiers":
 					element.setDiagramIdentifiers(parseDiagramIdentifiers(value));
 					break;
+				case "trueClause":
+					element.setTrueClause(String.valueOf(value.getValue()));
+					break;
+				case "falseClause":
+					element.setFalseClause(String.valueOf(value.getValue()));
+					break;
+				default:
+					throw new IllegalStateException("Unknown parameter for conditional activity annotation (See defined in Conditional class): " + key);
 			}
 		});
 		return element;

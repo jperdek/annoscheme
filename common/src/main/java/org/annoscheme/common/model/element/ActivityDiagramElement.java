@@ -1,6 +1,5 @@
 package org.annoscheme.common.model.element;
 
-import net.sourceforge.plantuml.StringUtils;
 import org.annoscheme.common.annotation.ActionType;
 
 import java.util.Arrays;
@@ -29,6 +28,8 @@ public class ActivityDiagramElement extends DiagramElement {
 			plantUmlStringBuilder.insert(0, DIAGRAM_START);
 		} else if (ActionType.END.equals(actionType)) {
 			plantUmlStringBuilder.append(DIAGRAM_END);
+		} if (ActionType.VOID.equals(actionType)) {
+			return "";
 		}
 		return plantUmlStringBuilder.toString();
 	}
@@ -36,7 +37,7 @@ public class ActivityDiagramElement extends DiagramElement {
 	@JsonIgnore
 	public String getPlantUmlElementMessage() {
 		StringBuilder plantUmlMessage = new StringBuilder("");
-		if (StringUtils.isEmpty(message)) {
+		if (message != null && "".equals(message)) {
 			return plantUmlMessage.toString();
 		}
 		plantUmlMessage.append(":").append(trimAndReplaceQuotes(message));
@@ -45,6 +46,7 @@ public class ActivityDiagramElement extends DiagramElement {
 	}
 
 	public String getMessage() {
+		if (message == null) { message = "Undefined. Probably caused by no value for message of certain action in annotationvalue.properties file!"; }
 		return message;
 	}
 
