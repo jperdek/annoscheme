@@ -38,16 +38,25 @@ public class AnnotationInterceptor {
 
 	@Around("(execution(* *(..)) || execution(*.new(..))) && @annotation(actionAnnotation)")
 	public Object actionAnnotationAdvice(ProceedingJoinPoint joinPoint, Action actionAnnotation) throws Throwable {
+		long startTime = System.nanoTime();
+		long estimatedTime;
+		
 		String resolvedIdentifier = propertiesHandler.resolvePropertyValue(actionAnnotation.diagramIdentifiers()[0]);
 		ActivityDiagramModel currentDiagram = diagramsMap.get(resolvedIdentifier);
 		if (ActionType.START.equals(actionAnnotation.actionType())) {
 			currentDiagram.removeObjectElements();
 			this.currentlyActiveDiagram = resolvedIdentifier;
 		} else if (!resolvedIdentifier.equals(this.currentlyActiveDiagram)) {
+			estimatedTime = System.nanoTime() - startTime;
+			System.out.println("------------------------------ Estimated time");
+			System.out.println(estimatedTime);
 			return joinPoint.proceed();
 		}
 		if (joinPoint.getKind().contains("constructor")) { // joinpoint is a constructor call
 			this.createObjectAndGenerateDiagramFromJoinPoint(new ActivityDiagramModel(currentDiagram), actionAnnotation, joinPoint);
+			estimatedTime = System.nanoTime() - startTime;
+			System.out.println("------------------------------ Estimated time");
+			System.out.println(estimatedTime);
 			return joinPoint.proceed();
 		} else {
 			//joinPoint is a method call, verify if is a REST controller action
@@ -61,6 +70,9 @@ public class AnnotationInterceptor {
 			//not a REST controller method call, proceed
 			Object joinPointResult = joinPoint.proceed();
 			this.createObjectAndGenerateDiagram(currentDiagram, joinPointResult, actionAnnotation);
+			estimatedTime = System.nanoTime() - startTime;
+			System.out.println("------------------------------ Estimated time");
+			System.out.println(estimatedTime);
 			return joinPointResult;
 
 		}
