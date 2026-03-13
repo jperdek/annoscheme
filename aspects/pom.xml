@@ -21,7 +21,17 @@
 			<groupId>org.annoscheme</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
-		
+		<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-webmvc</artifactId>
+	  <version>4.0.2</version>
+    </dependency>
+	<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-webmvc-test</artifactId>
+      <scope>test</scope>
+	  <version>4.0.2</version>
+    </dependency>
   </dependencies>
 
 	<build>

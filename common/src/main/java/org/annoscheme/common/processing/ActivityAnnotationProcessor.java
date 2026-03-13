@@ -48,14 +48,16 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-		System.out.println("CHECkkkkkk");
+		System.out.println("Start creating diagram");
 		long startTime = System.nanoTime();
 		long estimatedTime;
 		if (!annotations.isEmpty()) {
 			for (TypeElement annotation : annotations) {
 				Set<ExecutableElement> annotatedElements = (Set<ExecutableElement>) roundEnv.getElementsAnnotatedWith(annotation);
 				if (!annotatedElements.isEmpty()) {
-					annotatedElements.forEach(annotatedElement -> {
+					new ArrayList<ExecutableElement>(annotatedElements).parallelStream().forEach(annotatedElement -> {
+						System.out.println("Parallel processing:   ");
+						System.out.println(Thread.currentThread().getName());
 						//annotated element with @Action might have more of annotation mirrors
 						List<? extends AnnotationMirror> annotationMirrors = annotatedElement.getAnnotationMirrors();
 						List<? extends AnnotationMirror> actionsValues = new ArrayList<>();
@@ -83,7 +85,7 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 		return true;
 	}
 
-	public List<? extends AnnotationMirror> parseIndividualActions(AnnotationMirror annotation) {
+	public synchronized List<? extends AnnotationMirror> parseIndividualActions(AnnotationMirror annotation) {
 		List<AnnotationMirror> parsedActions = new ArrayList<>();
 		for (ExecutableElement executableElement : annotation.getElementValues().keySet()) {
 			ArrayList<AnnotationValue> annotValues = new ArrayList<>(
@@ -94,7 +96,7 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 		return parsedActions;
 	}
 
-	private void parseDiagramElementsFromAnnotationMirrors(List<? extends AnnotationMirror> annotationMirrors) {
+	private synchronized void parseDiagramElementsFromAnnotationMirrors(List<? extends AnnotationMirror> annotationMirrors) {
 		annotationMirrors = filterMirrorsForActionAnnotations(annotationMirrors);
 		// check if annotation mirrors size == 1 and whether it contains something other than @Action
 		if (annotationMirrors.size() == 1) {
@@ -145,8 +147,8 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 					elementToAdd = actionElementsToAdd.stream()
 													  .filter(element -> Arrays.equals(element.getDiagramIdentifiers(),
 																					   conditionalElementToAdd.getDiagramIdentifiers())).findFirst().get();
-					System.out.println(elementToAdd.getMessage());
-					System.out.println(conditionalElementToAdd.getBranchingType());
+					//System.out.println(elementToAdd.getMessage());
+					//System.out.println(conditionalElementToAdd.getBranchingType());
 					if (BranchingType.MAIN.equals(conditionalElementToAdd.getBranchingType())) {
 						conditionalElementToAdd.setMainFlowDirectChild(elementToAdd);
 					} else {
@@ -165,7 +167,7 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 
 	}
 
-	private List<? extends AnnotationMirror> filterMirrorsForActionAnnotations(List<? extends AnnotationMirror> annotationMirrors) {
+	private synchronized List<? extends AnnotationMirror> filterMirrorsForActionAnnotations(List<? extends AnnotationMirror> annotationMirrors) {
 		List<String> allowedAnnotationNames = Arrays.asList(AnnotationConstants.CONDITIONAL_NAME,
 															AnnotationConstants.ACTION_NAME,
 															AnnotationConstants.JOINING_NAME);
@@ -177,7 +179,7 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 								}).collect(Collectors.toList());
 	}
 
-	private ActivityDiagramElement parseActivityDiagramElement(AnnotationMirror mirror) {
+	private synchronized  ActivityDiagramElement parseActivityDiagramElement(AnnotationMirror mirror) {
 		ActivityDiagramElement element = new ActivityDiagramElement();
 		mirror.getElementValues().forEach((key, value) -> {
 			switch (key.getSimpleName().toString()) {
@@ -201,7 +203,7 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 		return element;
 	}
 
-	private JoiningDiagramElement parseJoiningElement(AnnotationMirror mirror) {
+	private synchronized  JoiningDiagramElement parseJoiningElement(AnnotationMirror mirror) {
 		JoiningDiagramElement element = new JoiningDiagramElement();
 		mirror.getElementValues().forEach((key, value) -> {
 			switch (key.getSimpleName().toString()) {
@@ -218,7 +220,7 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 		return element;
 	}
 
-	private ConditionalActivityDiagramElement parseConditionalElement(AnnotationMirror mirror) {
+	private synchronized  ConditionalActivityDiagramElement parseConditionalElement(AnnotationMirror mirror) {
 		ConditionalActivityDiagramElement element = new ConditionalActivityDiagramElement();
 		mirror.getElementValues().forEach((key, value) -> {
 			switch (key.getSimpleName().toString()) {
@@ -245,14 +247,14 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 		return element;
 	}
 
-	private ActionType getActionTypeForElement(String inputString) {
+	private synchronized  ActionType getActionTypeForElement(String inputString) {
 		if (inputString == null || inputString.isEmpty()) {
 			return ActionType.ACTION;
 		}
 		return ActionType.valueOf(inputString);
 	}
 
-	private String[] parseDiagramIdentifiers(AnnotationValue identifiersAnnotationValue) {
+	private synchronized  String[] parseDiagramIdentifiers(AnnotationValue identifiersAnnotationValue) {
 		List<String> identifiers = identifiersAnnotationValue.getValue() instanceof List ?
 								   (List<String>) identifiersAnnotationValue.getValue() :
 								   new ArrayList<>();
@@ -270,7 +272,7 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 		diagramCache.getDiagramsMap().forEach((key, value) -> VisualDiagramGenerator.generateImageFromPlantUmlString(value.toPlantUmlString(), key));
 	}
 
-	private String resolvePropertyValue(String key) {
+	private synchronized  String resolvePropertyValue(String key) {
 		return this.propertiesHandler.resolvePropertyValue(key);
 	}
 }

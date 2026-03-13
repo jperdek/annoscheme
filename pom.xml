@@ -12,15 +12,16 @@
 	<modules>
 		<module>application</module>
 		<module>common</module>
-		<!--<module>aspects</module>-->
-		<module>springAPI</module>
+		<module>aspects</module>
+		<!--<module>springAPI</module>-->
 	</modules>
 
 	<properties>
 		<maven.compiler.source>8</maven.compiler.source>
 		<maven.compiler.target>8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.source-target.version>24</java.source-target.version>
+		<!--<java.source-target.version>24</java.source-target.version>-->
+		<java.source-target.version>11</java.source-target.version>
 		<aspectj.version>1.9.24</aspectj.version>
 		<maven.compiler.version>3.15.0</maven.compiler.version>
 

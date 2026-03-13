@@ -48,14 +48,14 @@ public class AnnotationInterceptor {
 			this.currentlyActiveDiagram = resolvedIdentifier;
 		} else if (!resolvedIdentifier.equals(this.currentlyActiveDiagram)) {
 			estimatedTime = System.nanoTime() - startTime;
-			System.out.println("------------------------------ Estimated time");
+			System.out.println("------------------------------ Estimated time Aspects");
 			System.out.println(estimatedTime);
 			return joinPoint.proceed();
 		}
 		if (joinPoint.getKind().contains("constructor")) { // joinpoint is a constructor call
 			this.createObjectAndGenerateDiagramFromJoinPoint(new ActivityDiagramModel(currentDiagram), actionAnnotation, joinPoint);
 			estimatedTime = System.nanoTime() - startTime;
-			System.out.println("------------------------------ Estimated time");
+			System.out.println("------------------------------ Estimated time Aspects");
 			System.out.println(estimatedTime);
 			return joinPoint.proceed();
 		} else {
@@ -71,7 +71,7 @@ public class AnnotationInterceptor {
 			Object joinPointResult = joinPoint.proceed();
 			this.createObjectAndGenerateDiagram(currentDiagram, joinPointResult, actionAnnotation);
 			estimatedTime = System.nanoTime() - startTime;
-			System.out.println("------------------------------ Estimated time");
+			System.out.println("------------------------------ Estimated time Aspects");
 			System.out.println(estimatedTime);
 			return joinPointResult;
 

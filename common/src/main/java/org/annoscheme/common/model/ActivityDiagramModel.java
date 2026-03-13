@@ -40,7 +40,7 @@ public class ActivityDiagramModel implements PlantUmlIntegrable {
 		Iterator<ActivityDiagramElement> i = this.activityDiagramElements.iterator();
 		while (i.hasNext()) {
 			ActivityDiagramElement a = i.next();
-			System.out.println(a.getActionType() + " "+ a.getParentMessage());
+			//System.out.println(a.getActionType() + " "+ a.getParentMessage());
 		}
 		ActivityDiagramElement current = startElement;
 		boolean reachedEndState = false;
@@ -112,7 +112,7 @@ public class ActivityDiagramModel implements PlantUmlIntegrable {
 		ActivityDiagramElement current = fromElement;
 		plantUmlStringBuilder.append(current.toPlantUmlString());
 		while (current != null && !current.getActionType().equals(ActionType.END)) {
-			System.out.println("Condition making....");
+			//System.out.println("Condition making....");
 			ActivityDiagramElement finalCurrent = current;
 			ActivityDiagramElement child = activityDiagramElements.stream()
 																  .filter(x -> x.getParentMessage() != null &&
