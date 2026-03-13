@@ -10,8 +10,8 @@ import org.annoscheme.common.model.element.ObjectActivityDiagramElement;
 import org.annoscheme.common.properties.PropertiesHandler;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.ConstructorSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
@@ -26,7 +26,7 @@ public class ObjectElementProcessor {
 
 	private final PropertiesHandler propertiesHandler = PropertiesHandler.getInstance();
 
-	private final Logger logger = LoggerFactory.getLogger(ObjectElementProcessor.class);
+	private final Logger logger = LogManager.getLogger(ObjectElementProcessor.class);
 
 	public ActivityDiagramElement createObjectDiagramElement(JoinPoint joinPoint) {
 		ObjectActivityDiagramElement objectElement = new ObjectActivityDiagramElement();

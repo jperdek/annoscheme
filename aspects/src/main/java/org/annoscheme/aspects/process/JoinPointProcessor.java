@@ -4,8 +4,8 @@ import org.annoscheme.aspects.process.model.RequestData;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.CodeSignature;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +24,7 @@ import java.util.List;
 
 public class JoinPointProcessor {
 
-	private static final Logger logger = LoggerFactory.getLogger(JoinPointProcessor.class);
+	private static final Logger logger = LogManager.getLogger(JoinPointProcessor.class);
 
 	private final List<Class<? extends Annotation>> restMethodAnnotations = Arrays.asList(RequestMapping.class,
 																						  GetMapping.class,

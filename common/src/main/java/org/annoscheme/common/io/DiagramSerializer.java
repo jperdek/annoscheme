@@ -1,8 +1,8 @@
 package org.annoscheme.common.io;
 
 import org.annoscheme.common.model.ActivityDiagramModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ public class DiagramSerializer {
 
 	private static final ObjectMapper objectMapper;
 
-	private static final Logger logger = LoggerFactory.getLogger(DiagramSerializer.class);
+	//private static final Logger logger = LoggerFactory.getLogger(DiagramSerializer.class);
 
 	static {
 		File directory = new File(DIR_PATH);
@@ -42,20 +42,20 @@ public class DiagramSerializer {
 	public static void serializeCachedDiagramsMap(HashMap<String, ActivityDiagramModel> diagramMap) {
 		try {
 			String diagramMapPath = DIR_PATH + "/" + DIAGRAM_CACHE_PATH;
-			logger.info("Serializing cached diagrams map to " + diagramMapPath);
+			//logger.info("Serializing cached diagrams map to " + diagramMapPath);
 			objectMapper.writeValue(new File(DIR_PATH + "/" + DIAGRAM_CACHE_PATH), diagramMap);
-			logger.info("Diagrams successfully serialized to " + diagramMapPath);
+			//logger.info("Diagrams successfully serialized to " + diagramMapPath);
 		} catch (Exception err) {
-			logger.error("Diagrams map could not be serialized: " + err.getMessage());
+			//logger.error("Diagrams map could not be serialized: " + err.getMessage());
 		}
 	}
 
 	public static HashMap<String, ActivityDiagramModel> deserializeCachedDiagramsMap() {
 		try {
-			logger.info("Deserializing diagrams from " + DIAGRAM_CACHE_PATH);
+			//logger.info("Deserializing diagrams from " + DIAGRAM_CACHE_PATH);
 			return objectMapper.readValue(new File(DIR_PATH + "/" + DIAGRAM_CACHE_PATH), HashMap.class);
 		} catch (Exception err) {
-			logger.error("Could not deserialize cached diagrams map: " + err.getMessage());
+			//logger.error("Could not deserialize cached diagrams map: " + err.getMessage());
 		}
 		return new HashMap<>();
 	}

@@ -1,0 +1,15 @@
+services:
+    annotationScheme:
+        build: 
+            context: .
+        image: jperdek/annotationscheme
+        container_name: annotationScheme
+        volumes:
+            - ./application:/app/application
+            - ./img:/app/img
+        env_file: .env
+        stdin_open: true # docker run -i
+        tty: true
+volumes:
+    application-volume:
+    img-volume:

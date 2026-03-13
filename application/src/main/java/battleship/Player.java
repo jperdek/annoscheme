@@ -1,5 +1,6 @@
 package battleship;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import org.annoscheme.common.annotation.Action;
 import org.annoscheme.common.annotation.ActionType;
@@ -10,6 +11,7 @@ public class Player extends AbstractPlayer{
 
 	public Player(String id, BoardManager boardManager) {
 		super(id, AbstractPlayer.SHIP_DEFAULT_LENGTH, boardManager);
+		this.setup();
 	}
 	
 	public Player(String id, int[] shipLengths, BoardManager boardManager) {
@@ -19,12 +21,16 @@ public class Player extends AbstractPlayer{
 	
 	//@Action(actionType = ActionType.ACTION, message = "d1.setup", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.createResOr")
 	private void setup() {
+		boolean repeat;
 		this.playerGrid.printShips();
 		Scanner reader = InputReader.getReader();
 		System.out.println();
 		int counter = 1;
 		int normCounter = 0;
+		System.out.println("Setting ship: ");
+		System.out.println(this.numOfShipsLeft());
 		while (this.numOfShipsLeft() > 0) {
+			System.out.println("Inside");
 			for (Ship s : this.ships) {
 				System.out.println("\nShip #" + counter + ": Length-" + s.getLength());
 				int row = -1;
@@ -41,8 +47,15 @@ public class Player extends AbstractPlayer{
 					col = GridHelper.convertUserColToProCol(col);
 
 					System.out.print("Type in direction (0-H, 1-V): ");
-					dir = reader.nextInt();
-
+					repeat = true;
+					while(repeat) {
+						try {
+							dir = reader.nextInt();
+							break;
+						} catch(InputMismatchException e) {
+							repeat = true;
+						}
+					}
 					// System.out.println("DEBUG: " + row + col + dir);
 
 					if (col >= 0 && col <= this.board.getAreaColsHeight() && row != -1 && dir != -1) // Check valid input
@@ -56,7 +69,7 @@ public class Player extends AbstractPlayer{
 					System.out.println("Invalid location!");
 				}
 
-				// System.out.println("FURTHER DEBUG: row = " + row + "; col = " + col);
+				System.out.println("FURTHER DEBUG: row = " + row + "; col = " + col);
 				this.ships[normCounter].setLocation(row, col);
 				this.ships[normCounter].setDirection(dir);
 				this.playerGrid.addShip(this.ships[normCounter]);

@@ -21,10 +21,6 @@
           <version>3.8.0</version>
         </plugin>
         <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.5.3</version>
-        </plugin>
-        <plugin>
           <artifactId>maven-source-plugin</artifactId>
           <version>3.3.1</version>
         </plugin>
@@ -87,8 +83,8 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>8</source>
-          <target>8</target>
+          <source>10</source>
+          <target>10</target>
         </configuration>
       </plugin>
       <plugin>
@@ -152,9 +148,9 @@
     </dependencies>
   </dependencyManagement>
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <dropwizard.version>5.0.0-rc.3</dropwizard.version>
     <mainClass>battleshipmy.battleshipmy.battleshipprojApplication</mainClass>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
 </project>

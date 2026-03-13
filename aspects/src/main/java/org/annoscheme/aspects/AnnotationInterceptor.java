@@ -36,7 +36,7 @@ public class AnnotationInterceptor {
 
 	private String currentlyActiveDiagram = null;
 
-	@Around("(execution(* *(..)) || execution(*.new(..))) && @annotation(actionAnnotation)")
+	@Around("(execution(* *..*.*(..)) || execution(*.new(..))) && @annotation(actionAnnotation)")
 	public Object actionAnnotationAdvice(ProceedingJoinPoint joinPoint, Action actionAnnotation) throws Throwable {
 		long startTime = System.nanoTime();
 		long estimatedTime;
@@ -76,9 +76,10 @@ public class AnnotationInterceptor {
 			return joinPointResult;
 
 		}
+		//return joinPoint.proceed();
 	}
 
-	@Around("(execution(* *(..)) || execution(*.new(..))) && @annotation(actionsAnnotation)")
+	//@Around("(execution(* *(..)) || execution(*.new(..))) && @annotation(actionsAnnotation)")
 	public Object actionsAnnotationAdvice(ProceedingJoinPoint joinPoint, Actions actionsAnnotation) throws Throwable {
 		//TODO not working properly for multiple annotations
 		//		ActivityDiagramModel currentDiagram = diagramsMap.get("1").clone();

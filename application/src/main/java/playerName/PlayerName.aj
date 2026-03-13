@@ -21,6 +21,7 @@ public aspect PlayerName {
 	
 	//#{"playerNames": "true"}
 	Player around(): call(Player.new(..)) && if(Configuration.playerNames){
+		System.out.println("Setting player names........");
 		Scanner reader = InputReader.getReader();
 		System.out.println("Set player name:");
 		String playerNameLine = reader.nextLine().replace("\n", "");
@@ -35,6 +36,7 @@ public aspect PlayerName {
 
 	//#{"playerNames": "true", "computerOpponent": "true"}
 	ComputerPlayer around(): call(ComputerPlayer.new(..)) && if(Configuration.playerNames){
+		System.out.println("Setting oponent player names........");
 		Scanner reader = InputReader.getReader();
 		System.out.println("Set computer name:");
 		String playerNameLine = reader.nextLine().replace("\n", "");

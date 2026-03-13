@@ -10,8 +10,8 @@ import org.annoscheme.common.model.element.ActivityDiagramElement;
 import org.annoscheme.common.model.element.ConditionalActivityDiagramElement;
 import org.annoscheme.common.model.element.JoiningDiagramElement;
 import org.annoscheme.common.properties.PropertiesHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Processor;
@@ -43,11 +43,14 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 
 	private final PropertiesHandler propertiesHandler = PropertiesHandler.getInstance();
 
-	private final Logger logger = LoggerFactory.getLogger(ActivityAnnotationProcessor.class);
+	//private final Logger logger = LoggerFactory.getLogger(ActivityAnnotationProcessor.class);
 
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+		System.out.println("CHECkkkkkk");
+		long startTime = System.nanoTime();
+		long estimatedTime;
 		if (!annotations.isEmpty()) {
 			for (TypeElement annotation : annotations) {
 				Set<ExecutableElement> annotatedElements = (Set<ExecutableElement>) roundEnv.getElementsAnnotatedWith(annotation);
@@ -67,13 +70,16 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 								this.parseDiagramElementsFromAnnotationMirrors(annotationMirrors);
 							}
 						} catch (NoSuchElementException ex) {
-							logger.error("Exception in ActivityAnnotationProcessor:" + ex);
+							//logger.error("Exception in ActivityAnnotationProcessor:" + ex);
 						}
 					});
 				}
 			}
 			this.persistDiagrams();
 		}
+		estimatedTime = System.nanoTime() - startTime;
+		System.out.println("------------------------------ Estimated time");
+		System.out.println(estimatedTime);
 		return true;
 	}
 

@@ -30,10 +30,11 @@ public class ConfigurationLoader {
 	}
 
 	private void loadAndSetDifficulty(JSONObject configurationObject) {
-		String chosenDifficultyName = (String) configurationObject.get("difficulty");
+		System.out.println(configurationObject.toString());
+		String chosenDifficultyName = (String) configurationObject.get("chosenDifficulty");
 		Configuration.difficulty = chosenDifficultyName;
 		
-		JSONObject difficulties =  (JSONObject) configurationObject.get("difficultyLevels");
+		JSONObject difficulties =  (JSONObject) configurationObject.get("difficulty");
 		JSONObject chosenDifficulty = (JSONObject) difficulties.get(chosenDifficultyName);
 		
 		setConfigurationForPlayer((JSONObject) chosenDifficulty.get("player"));
