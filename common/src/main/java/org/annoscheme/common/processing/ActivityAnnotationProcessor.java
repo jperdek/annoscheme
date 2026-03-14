@@ -10,8 +10,8 @@ import org.annoscheme.common.model.element.ActivityDiagramElement;
 import org.annoscheme.common.model.element.ConditionalActivityDiagramElement;
 import org.annoscheme.common.model.element.JoiningDiagramElement;
 import org.annoscheme.common.properties.PropertiesHandler;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Processor;
@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 import com.google.auto.service.AutoService;
 
 @SupportedAnnotationTypes({"org.annoscheme.common.annotation.Action", "org.annoscheme.common.annotation.Actions"})
-@SupportedSourceVersion(SourceVersion.RELEASE_8)
+@SupportedSourceVersion(SourceVersion.RELEASE_24)
 @AutoService(Processor.class)
 public class ActivityAnnotationProcessor extends AbstractProcessor {
 
@@ -43,7 +43,7 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 
 	private final PropertiesHandler propertiesHandler = PropertiesHandler.getInstance();
 
-	//private final Logger logger = LoggerFactory.getLogger(ActivityAnnotationProcessor.class);
+	private final Logger logger = LoggerFactory.getLogger(ActivityAnnotationProcessor.class);
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -56,8 +56,8 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 				Set<ExecutableElement> annotatedElements = (Set<ExecutableElement>) roundEnv.getElementsAnnotatedWith(annotation);
 				if (!annotatedElements.isEmpty()) {
 					new ArrayList<ExecutableElement>(annotatedElements).parallelStream().forEach(annotatedElement -> {
-						System.out.println("Parallel processing:   ");
-						System.out.println(Thread.currentThread().getName());
+						//System.out.println("Parallel processing:   ");
+						//System.out.println(Thread.currentThread().getName());
 						//annotated element with @Action might have more of annotation mirrors
 						List<? extends AnnotationMirror> annotationMirrors = annotatedElement.getAnnotationMirrors();
 						List<? extends AnnotationMirror> actionsValues = new ArrayList<>();
@@ -72,7 +72,7 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 								this.parseDiagramElementsFromAnnotationMirrors(annotationMirrors);
 							}
 						} catch (NoSuchElementException ex) {
-							//logger.error("Exception in ActivityAnnotationProcessor:" + ex);
+							logger.error("Exception in ActivityAnnotationProcessor:", ex);
 						}
 					});
 				}
@@ -87,12 +87,11 @@ public class ActivityAnnotationProcessor extends AbstractProcessor {
 
 	public synchronized List<? extends AnnotationMirror> parseIndividualActions(AnnotationMirror annotation) {
 		List<AnnotationMirror> parsedActions = new ArrayList<>();
-		for (ExecutableElement executableElement : annotation.getElementValues().keySet()) {
+		annotation.getElementValues().keySet().forEach((ExecutableElement executableElement) -> {
 			ArrayList<AnnotationValue> annotValues = new ArrayList<>(
 					(Collection<? extends AnnotationValue>) annotation.getElementValues().get(executableElement).getValue());
 			parsedActions.addAll(annotValues.stream().map(annotationValue -> (AnnotationMirror) annotationValue.getValue()).collect(Collectors.toList()));
-
-		}
+		});
 		return parsedActions;
 	}
 

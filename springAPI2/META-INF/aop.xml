@@ -1,0 +1,15 @@
+<!DOCTYPE aspectj PUBLIC "-//AspectJ//DTD//EN" "https://www.eclipse.org/aspectj/dtd/aspectj.dtd">
+<aspectj>
+
+	<weaver>
+		<!-- only weave classes in our application-specific packages and sub-packages -->
+		<include within="com..*"/>
+		<include within="battleship..*"/>
+	</weaver>
+
+	<aspects>
+		<!-- weave in just this aspect -->
+		<aspect name="com.example.restservice.aspects.interception.StaticFunctionality"/>
+	</aspects>
+
+</aspectj>
