@@ -148,9 +148,9 @@
     </dependencies>
   </dependencyManagement>
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <dropwizard.version>5.0.0-rc.3</dropwizard.version>
     <mainClass>battleshipmy.battleshipmy.battleshipprojApplication</mainClass>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
 </project>

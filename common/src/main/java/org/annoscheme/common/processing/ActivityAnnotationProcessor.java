@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 import com.google.auto.service.AutoService;
 
 @SupportedAnnotationTypes({"org.annoscheme.common.annotation.Action", "org.annoscheme.common.annotation.Actions"})
-@SupportedSourceVersion(SourceVersion.RELEASE_24)
+@SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
 public class ActivityAnnotationProcessor extends AbstractProcessor {
 
