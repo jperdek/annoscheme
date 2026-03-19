@@ -51,9 +51,9 @@ public class RestockOrderService {
 	@Action(message = "d1.logOpResult", diagramIdentifiers = {"d1.id"}, actionType = ActionType.END)
 	private void logCreateResponse(boolean isSuccess, String message) {
 		if (isSuccess) {
-			logger.debug("Restock order created successfully: " + message);
+			//logger.debug("Restock order created successfully: " + message);
 		} else {
-			logger.error("Could not create restock order: " + message);
+			//logger.error("Could not create restock order: " + message);
 		}
 	}
 }

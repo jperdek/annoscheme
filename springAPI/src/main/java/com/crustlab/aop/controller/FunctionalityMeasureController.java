@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.crustlab.aop.aspect.DiagramCoordinationCommand;
 
-import battleship.Battleship;
-import configurationManagement.ConfigurationLoader;
-
 
 @RestController
 public class FunctionalityMeasureController {
@@ -26,14 +23,7 @@ public class FunctionalityMeasureController {
         this.diagramCoordinationCommand = diagramCoordinationCommand;
   }
 
-  //@Action(actionType = ActionType.START, message = "d1.startBattleship", diagramIdentifiers = {"d1.id"})
-	//@Action(actionType = ActionType.END, message = "d1.endBattleship", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.statisticsMerge")
-	public static void call() {
-    String currentDirectory = System.getProperty("user.dir");
-    System.out.println("Current working directory: " + currentDirectory);
-		ConfigurationLoader configurationLoader = new ConfigurationLoader("./resources/battleshipConfig.json");
-		Battleship battleshipGame = new Battleship();
-	}
+ 
 
   @GetMapping("/staticCreation")
   public String staticCreation(@RequestParam(name="name", defaultValue = "World") String name) {
@@ -44,11 +34,16 @@ public class FunctionalityMeasureController {
     return "Greetings from Spring Boot!";
   }
 
-  @GetMapping("/functionalityMeasure")
-  public void  greeting(@RequestParam(name="name", defaultValue = "World") String name) {
-    System.out.println("Launching application");
-    FunctionalityMeasureController.call();
-    System.out.println("Terminating application");
-  }
+  /* 
+   //@Action(actionType = ActionType.START, message = "d1.startBattleship", diagramIdentifiers = {"d1.id"})
+	//@Action(actionType = ActionType.END, message = "d1.endBattleship", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.statisticsMerge")
+	public static void call() {
+    String currentDirectory = System.getProperty("user.dir");
+    System.out.println("Current working directory: " + currentDirectory);
+		ConfigurationLoader configurationLoader = new ConfigurationLoader("./resources/battleshipConfig.json");
+		Battleship battleshipGame = new Battleship();
+	}*/
+
+ 
 }
 

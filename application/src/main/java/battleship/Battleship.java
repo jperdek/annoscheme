@@ -6,19 +6,25 @@ import org.annoscheme.common.annotation.BranchingType;
 import org.annoscheme.common.annotation.Conditional;
 import org.annoscheme.common.annotation.Action;
 import org.annoscheme.common.annotation.Joining;
+import org.springframework.stereotype.Service;
 import org.annoscheme.common.annotation.ActionType;
 
 //@{}
+@Service
 public class Battleship {
 	public static Scanner reader = InputReader.getReader();
 	public BoardManager boardManager = new BoardManager();
 	public AbstractPlayer userPlayer, computer;
 	
 	public Battleship() {
+		
+	}
+	
+	public void start() {
 		printAbout();
 		
-		boardManager = new BoardManager();
-		boardManager.registerPlayerComputer("PLAYER", new Board(), "PLAYER2", new Board());
+		this.boardManager = new BoardManager();
+		this.boardManager.registerPlayerComputer("PLAYER", new Board(), "PLAYER2", new Board());
 		
 		
 		System.out.println("\nPlayer SETUP:");
@@ -51,7 +57,7 @@ public class Battleship {
 		this.collectStatistics();
 		this.notCollectStatistics();
 	}
-	
+
 	@Action(actionType = ActionType.ACTION,
 	     message="d1.opponentTurn", diagramIdentifiers = {"d1.id"}, parentMessage = "d1.instantiateOpponentJoin")
 	private void opponentTurn(AbstractPlayer computer, AbstractPlayer userPlayer) {
@@ -88,7 +94,7 @@ public class Battleship {
 	@Joining(condition = "d1.playerAsOpponentVariability", diagramIdentifiers = {"d1.id"})
 	@Action(actionType = ActionType.ACTION, message = "d1.instantiateOpponentJoin", 
 			diagramIdentifiers = {"d1.id"}, parentMessage = "d1.instantiateOpponent")
-	public void instantiateOpponentJoin() {}
+	public void instantiateOpponentJoin() { System.out.println("Instantiated opponent--------------------------------------------------------------------------"); }
 	
 	public AbstractPlayer instantiatePlayer(String playerID, int[] playerShips, BoardManager boardManager) {
 		return new Player(playerID, playerShips, boardManager);
@@ -213,5 +219,6 @@ public class Battleship {
 	public static void main(String[] args) {
 		ConfigurationLoader configurationLoader = new ConfigurationLoader("resources/battleshipConfig.json");
 		Battleship battleshipGame = new Battleship();
+		battleshipGame.start();
 	}
 }
